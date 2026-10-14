@@ -40,7 +40,7 @@ struct ContentView: View {
                         }.background(Brand.surface(scheme)).clipShape(RoundedRectangle(cornerRadius: 16))
                             .overlay(RoundedRectangle(cornerRadius: 16).stroke(.primary.opacity(0.07)))
                         if wide && model.tab != 2 {
-                            DiscoveriesView(model: model, compact: true).frame(width: 294).clipShape(RoundedRectangle(cornerRadius: 16))
+                            DiscoveriesView(model: model).frame(width: 320).clipShape(RoundedRectangle(cornerRadius: 16))
                                 .overlay(RoundedRectangle(cornerRadius: 16).stroke(.primary.opacity(0.07)))
                         }
                     }.padding(.horizontal, wide ? 28 : 12)

@@ -4,7 +4,6 @@ struct DiscoveriesView: View {
     @ObservedObject var model: CrawlerModel
     @EnvironmentObject private var prefs: Preferences
     @Environment(\.colorScheme) private var scheme
-    var compact = false
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
@@ -18,11 +17,11 @@ struct DiscoveriesView: View {
                     TextField(prefs.text("Filtrar descobertas…", "Filter discoveries…"), text: $model.search).textFieldStyle(.plain)
                 }.padding(10).background(.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 8)).padding(.horizontal, 20)
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 6) {
-                        ForEach(["All", "DOI", "PMID", "ISBN", "Bibcode", "Link"], id: \.self) { type in
+                    HStack(spacing: 4) {
+                        ForEach(model.availableFilters, id: \.self) { type in
                             Button { model.filter = type } label: {
                                 Text(type == "All" ? prefs.text("Tudo", "All") : type).font(.system(size: 10, weight: .medium, design: .monospaced))
-                                    .padding(.horizontal, 10).padding(.vertical, 7)
+                                    .padding(.horizontal, 8).padding(.vertical, 7)
                                     .background(model.filter == type ? Brand.amber.opacity(0.22) : .clear, in: RoundedRectangle(cornerRadius: 6))
                                     .foregroundStyle(model.filter == type ? Brand.accent(scheme) : .secondary)
                             }.buttonStyle(.plain).accessibilityAddTraits(model.filter == type ? .isSelected : [])
@@ -118,9 +117,11 @@ struct ConnectionMap: View {
                             context.fill(Path(ellipseIn: CGRect(x: moving.x - 2, y: moving.y - 2, width: 4, height: 4)), with: .color(Brand.orange))
                         }
                         context.fill(Path(ellipseIn: CGRect(x: source.x - 5, y: source.y - 5, width: 10, height: 10)), with: .color(Brand.amber))
-                        context.fill(Path(ellipseIn: CGRect(x: p.x - 4, y: p.y - 4, width: 8, height: 8)), with: .color(entry.type == "Link" ? Brand.amber : Brand.orange))
+                        let node = Path(ellipseIn: CGRect(x: p.x - 4, y: p.y - 4, width: 8, height: 8))
+                        if entry.type == "Link" { context.stroke(node, with: .color(Brand.amber), lineWidth: 1.5) } else { context.fill(node, with: .color(Brand.orange)) }
                         if entries.count <= 12 || i.isMultiple(of: 3) {
-                            let label = String(entry.host.prefix(19))
+                            let host = entry.host.hasPrefix("www.") ? String(entry.host.dropFirst(4)) : entry.host
+                            let label = host.count > 20 ? host.prefix(19) + "…" : host
                             context.draw(Text(label).font(.system(size: 9, design: .monospaced)).foregroundStyle(Brand.accent(scheme)), at: CGPoint(x: p.x, y: p.y + 17))
                         }
                     }
@@ -131,8 +132,9 @@ struct ConnectionMap: View {
                 }
             }.accessibilityElement(children: .ignore).accessibilityLabel(prefs.text("Mapa das ligações descobertas", "Map of discovered links")).accessibilityValue("\(model.discoveries.count)")
             HStack(spacing: 16) {
-                Label(prefs.text("Página de origem", "Source page"), systemImage: "circle.fill")
-                Label(prefs.text("Ligação descoberta", "Discovered link"), systemImage: "smallcircle.filled.circle")
+                Label { Text(prefs.text("Página de origem", "Source page")) } icon: { Image(systemName: "circle.fill").foregroundStyle(Brand.amber) }
+                Label { Text(prefs.text("Referência", "Reference")) } icon: { Image(systemName: "circle.fill").foregroundStyle(Brand.orange) }
+                Label { Text(prefs.text("Ligação", "Link")) } icon: { Image(systemName: "circle").foregroundStyle(Brand.amber) }
             }.font(.system(size: 10, design: .monospaced)).foregroundStyle(.secondary).padding(24)
         }.background(Brand.surface(scheme))
     }

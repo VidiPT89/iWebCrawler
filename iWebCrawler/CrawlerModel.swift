@@ -44,6 +44,7 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     var running: Bool { phase == .scanning || phase == .waiting }
     var progress: Double { linkCount > 0 ? min(1, Double(scannedCount) / Double(linkCount)) : 0 }
     var referenceCount: Int { discoveries.filter { $0.type != "Link" }.count }
+    var availableFilters: [String] { ["All"] + ["DOI", "PMID", "ISBN", "Bibcode", "Link"].filter { type in discoveries.contains { $0.type == type } } }
     var filtered: [Discovery] {
         discoveries.filter { (filter == "All" || $0.type == filter) && (search.isEmpty || ($0.title + $0.url).localizedCaseInsensitiveContains(search)) }
     }
@@ -139,13 +140,12 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
         error = preferences.text("A página foi interrompida. Abre-a novamente para continuar.", "The page was interrupted. Open it again to continue.")
     }
     func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction) async -> WKNavigationActionPolicy {
+        guard action.targetFrame?.isMainFrame != false else { return .allow }
         guard let url = action.request.url, ["http", "https", "file"].contains(url.scheme ?? "") else { return .cancel }
-        if action.targetFrame?.isMainFrame != false {
-            if autoStart, url.host != rootHost { pause(); phase = .complete; return .cancel }
-            if action.navigationType == .linkActivated {
-                pause(); isDemo = false; rootHost = url.host
-                if action.targetFrame == nil { activeNavigation = webView.load(action.request); return .cancel }
-            }
+        if autoStart, url.host != rootHost { pause(); phase = .complete; return .cancel }
+        if action.navigationType == .linkActivated {
+            pause(); isDemo = false; rootHost = url.host
+            if action.targetFrame == nil { activeNavigation = webView.load(action.request); return .cancel }
         }
         return .allow
     }
