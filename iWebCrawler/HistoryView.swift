@@ -38,7 +38,7 @@ struct HistoryView: View {
             }
             .confirmationDialog(prefs.text("Apagar todo o histórico?", "Delete all history?"), isPresented: $confirmClear, titleVisibility: .visible) {
                 Button(prefs.text("Apagar tudo", "Delete all"), role: .destructive) { history.clear() }
-                Button(prefs.text("Cancelar", "Cancel"), role: .cancel) {}
+                Button(prefs.text("Cancelar", "Cancel"), role: .cancel) {}.keyboardShortcut(.defaultAction)
             } message: {
                 Text(prefs.text("As coleções guardadas neste dispositivo deixam de existir. Os ficheiros que exportaste não são afetados.", "Collections saved on this device will be removed. Files you exported are not affected."))
             }
