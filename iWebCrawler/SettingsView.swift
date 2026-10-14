@@ -29,7 +29,7 @@ struct SettingsView: View {
                     Toggle(prefs.text("Seguir ligações do mesmo site", "Follow links on the same website"), isOn: $prefs.followLinks)
                         .onChange(of: prefs.followLinks) { _, value in if !value { model.pause() } }
                     Stepper(prefs.text("Limite de páginas", "Page limit") + ": \(prefs.pageLimit)", value: $prefs.pageLimit, in: 1...20)
-                    Text(prefs.text("Exploração em primeiro plano, com 2 segundos entre páginas. Usa o seguimento automático apenas em sites onde tens autorização. Não interpreta robots.txt.", "Foreground exploration, with 2 seconds between pages. Only enable automatic following on websites you have permission to crawl. robots.txt is not interpreted.")).font(.caption).foregroundStyle(.secondary)
+                    Text(prefs.text("Exploração em primeiro plano, com 2 segundos entre páginas. O seguimento automático respeita o robots.txt de cada site. Usa-o apenas em sites onde tens autorização.", "Foreground exploration, with 2 seconds between pages. Automatic following respects each website’s robots.txt. Only use it on websites you have permission to crawl.")).font(.caption).foregroundStyle(.secondary)
                 } header: { Text(prefs.text("Exploração", "Exploration")) }
                 Section {
                     HStack(spacing: 14) {
@@ -40,7 +40,7 @@ struct SettingsView: View {
                         }
                     }.padding(.vertical, 4)
                     CreditsView().frame(maxWidth: .infinity).padding(.vertical, 12)
-                    Text(prefs.text("Sem contas, análises de utilização ou servidor próprio. Os sites que visitas recebem os pedidos normais de navegação. As descobertas ficam nesta sessão até abrires outra página ou fechares a app.", "No accounts, analytics or backend. Websites you visit receive normal browsing requests. Discoveries stay in this session until you open another page or close the app.")).font(.caption).foregroundStyle(.secondary)
+                    Text(prefs.text("Sem contas, análises de utilização ou servidor próprio. Os sites que visitas recebem os pedidos normais de navegação, e a verificação de ligações contacta cada endereço verificado. O histórico fica apenas neste dispositivo.", "No accounts, analytics or backend. Websites you visit receive normal browsing requests, and link checking contacts each checked address. Your history stays on this device only.")).font(.caption).foregroundStyle(.secondary)
                     Button(prefs.text("Rever apresentação", "Replay introduction")) {
                         model.pause(); model.showSettings = false; model.showSplash = true
                     }

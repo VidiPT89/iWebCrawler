@@ -27,7 +27,9 @@ struct ContentView: View {
                         VStack(spacing: 0) {
                             workspaceToolbar(wide: wide)
                             ZStack {
-                                WebSurface(webView: model.webView).opacity(model.tab == 0 ? 1 : 0).allowsHitTesting(model.tab == 0).accessibilityHidden(model.tab != 0)
+                                WebSurface(webView: model.webView)
+                                    .frame(width: model.tab == 0 ? nil : 0, height: model.tab == 0 ? nil : 0)
+                                    .opacity(model.tab == 0 ? 1 : 0).allowsHitTesting(model.tab == 0).accessibilityHidden(model.tab != 0)
                                 if model.tab == 1 { ConnectionMap(model: model) }
                                 if model.tab == 2 { DiscoveriesView(model: model) }
                                 if model.phase == .loading && model.tab == 0 {
@@ -64,6 +66,7 @@ struct ContentView: View {
         .preferredColorScheme(prefs.appearance.scheme)
         .tint(Brand.accent(scheme))
         .sheet(isPresented: $model.showSettings) { SettingsView(model: model).environmentObject(prefs).environment(\.locale, Locale(identifier: prefs.language.rawValue)) }
+        .sheet(isPresented: $model.showHistory) { HistoryView(model: model, history: model.history).environmentObject(prefs).preferredColorScheme(prefs.appearance.scheme) }
         .sheet(item: $model.selectedDiscovery) { item in
             DiscoveryDetail(item: item, model: model).environmentObject(prefs).preferredColorScheme(prefs.appearance.scheme)
         }
@@ -73,6 +76,9 @@ struct ContentView: View {
         .onChange(of: prefs.reducedMotion) { _, _ in model.configure(dark: scheme == .dark) }
         .onChange(of: scenePhase) { _, phase in if phase != .active { model.pause() } }
         .onAppear { model.configure(dark: scheme == .dark) }
+        #if os(iOS)
+        .sensoryFeedback(.impact(weight: .light), trigger: model.referenceCount) { old, new in new > old && !prefs.reducedMotion }
+        #endif
         #if os(macOS)
         .frame(minWidth: 650, minHeight: 600)
         #endif
@@ -92,6 +98,8 @@ struct ContentView: View {
                 Label(prefs.text("Demonstração", "Demo"), systemImage: "sparkle").font(.caption.weight(.medium)).lineLimit(1)
                     .labelStyle(AdaptiveLabelStyle(iconOnly: !wide))
             }.buttonStyle(.bordered).controlSize(.small).accessibilityLabel(prefs.text("Demonstração", "Demo"))
+            Button { model.showHistory = true } label: { Image(systemName: "clock.arrow.circlepath").font(.system(size: 17, weight: .regular)).frame(width: 34, height: 34) }
+                .buttonStyle(.plain).accessibilityLabel(prefs.text("Histórico", "History")).keyboardShortcut("y", modifiers: .command)
             Button { model.showSettings = true } label: { Image(systemName: "gearshape").font(.system(size: 17, weight: .regular)).frame(width: 34, height: 34) }
                 .buttonStyle(.plain).accessibilityLabel(prefs.text("Definições", "Settings")).accessibilityIdentifier("settings.open")
                 .keyboardShortcut(",", modifiers: .command)
@@ -141,7 +149,7 @@ struct ContentView: View {
                 }
                 Button { model.toggle() } label: {
                     Label(model.running ? prefs.text("Pausar", "Pause") : model.phase == .paused ? prefs.text("Retomar", "Resume") : prefs.text("Explorar", "Explore"), systemImage: model.running ? "pause.fill" : "play.fill")
-                }.buttonStyle(ActionButtonStyle()).keyboardShortcut(.return, modifiers: .command).disabled(!model.loaded || model.linkCount == 0)
+                }.buttonStyle(ActionButtonStyle()).keyboardShortcut("e", modifiers: .command).disabled(!model.loaded || model.linkCount == 0)
                     .opacity(!model.loaded || model.linkCount == 0 ? 0.45 : 1).accessibilityIdentifier("explore.toggle")
             }
             if !wide {
@@ -172,16 +180,31 @@ struct AdaptiveLabelStyle: LabelStyle {
     }
 }
 
+// The page keeps running behind the Map and Discoveries views so exploration never stalls, but an embedded
+// platform view ignores SwiftUI's `allowsHitTesting` and would swallow their clicks. While hidden, the container
+// shrinks to zero size, which no click can reach, and the page keeps its last size so its layout and the spider stay put.
 #if os(macOS)
+final class WebContainer: NSView {
+    let webView: WKWebView
+    init(_ webView: WKWebView) { self.webView = webView; super.init(frame: .zero); addSubview(webView) }
+    required init?(coder: NSCoder) { nil }
+    override func layout() { super.layout(); if bounds.width > 0, bounds.height > 0 { webView.frame = bounds } }
+}
 struct WebSurface: NSViewRepresentable {
     let webView: WKWebView
-    func makeNSView(context: Context) -> WKWebView { webView }
-    func updateNSView(_ nsView: WKWebView, context: Context) {}
+    func makeNSView(context: Context) -> WebContainer { WebContainer(webView) }
+    func updateNSView(_ nsView: WebContainer, context: Context) {}
 }
 #else
+final class WebContainer: UIView {
+    let webView: WKWebView
+    init(_ webView: WKWebView) { self.webView = webView; super.init(frame: .zero); clipsToBounds = false; addSubview(webView) }
+    required init?(coder: NSCoder) { nil }
+    override func layoutSubviews() { super.layoutSubviews(); if bounds.width > 0, bounds.height > 0 { webView.frame = bounds } }
+}
 struct WebSurface: UIViewRepresentable {
     let webView: WKWebView
-    func makeUIView(context: Context) -> WKWebView { webView }
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
+    func makeUIView(context: Context) -> WebContainer { WebContainer(webView) }
+    func updateUIView(_ uiView: WebContainer, context: Context) {}
 }
 #endif

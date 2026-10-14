@@ -42,6 +42,7 @@ enum Brand {
     static let orange = Color(red: 0.93, green: 0.40, blue: 0.12)
     static let amber = Color(red: 0.85, green: 0.47, blue: 0.024)
     static let gold = Color(red: 0.98, green: 0.75, blue: 0.14)
+    static let broken = Color(red: 0.86, green: 0.22, blue: 0.18)
     static let gradient = LinearGradient(colors: [gold, orange], startPoint: .topLeading, endPoint: .bottomTrailing)
     static func background(_ scheme: ColorScheme) -> Color { scheme == .dark ? Color(red: 0.045, green: 0.043, blue: 0.041) : Color(red: 0.96, green: 0.945, blue: 0.92) }
     static func surface(_ scheme: ColorScheme) -> Color { scheme == .dark ? Color(red: 0.085, green: 0.08, blue: 0.07) : Color(red: 0.995, green: 0.985, blue: 0.965) }

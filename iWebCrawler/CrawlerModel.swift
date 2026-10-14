@@ -7,7 +7,9 @@ struct Discovery: Identifiable, Codable {
     let url: String
     let type: String
     let page: String
+    var status: Int? = nil
     var host: String { URL(string: url)?.host ?? url }
+    var health: LinkHealth { LinkHealth(status: status) }
 }
 
 enum CrawlPhase { case loading, ready, scanning, paused, complete, waiting, failed }
@@ -16,6 +18,7 @@ enum CrawlPhase { case loading, ready, scanning, paused, complete, waiting, fail
 final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKScriptMessageHandler {
     @Published var selectedDiscovery: Discovery?
     @Published var showSettings = false
+    @Published var showHistory = false
     @Published var showSplash = true
     @Published var tab = 0
     @Published var search = ""
@@ -28,9 +31,17 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     @Published var linkCount = 0
     @Published var scannedCount = 0
     @Published var error: String?
-    @Published var exportURL: URL?
+    @Published var exportFiles: [URL] = []
     @Published var isDemo = true
+    @Published var checking = false
+    @Published var checkedCount = 0
+    @Published var checkTotal = 0
     let webView: WKWebView
+    let history: HistoryStore
+    private var explorationID = UUID()
+    private var startAddress = ""
+    private var checkTask: Task<Void, Never>?
+    private var robots: (host: String, rules: RobotsRules)?
     private var visited = Set<String>()
     private var seen = Set<String>()
     private var queue: [URL] = []
@@ -44,12 +55,20 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     var running: Bool { phase == .scanning || phase == .waiting }
     var progress: Double { linkCount > 0 ? min(1, Double(scannedCount) / Double(linkCount)) : 0 }
     var referenceCount: Int { discoveries.filter { $0.type != "Link" }.count }
-    var availableFilters: [String] { ["All"] + ["DOI", "PMID", "ISBN", "Bibcode", "Link"].filter { type in discoveries.contains { $0.type == type } } }
+    var exploredPages: [String] { isDemo ? [] : visited.sorted() }
+    var problemCount: Int { discoveries.filter { $0.health.isProblem }.count }
+    var availableFilters: [String] {
+        ["All"] + ["DOI", "PMID", "ISBN", "Bibcode", "Link"].filter { type in discoveries.contains { $0.type == type } } + (problemCount > 0 ? ["Broken"] : [])
+    }
     var filtered: [Discovery] {
-        discoveries.filter { (filter == "All" || $0.type == filter) && (search.isEmpty || ($0.title + $0.url).localizedCaseInsensitiveContains(search)) }
+        discoveries.filter { item in
+            let matchesFilter = filter == "All" || (filter == "Broken" ? item.health.isProblem : item.type == filter)
+            return matchesFilter && (search.isEmpty || (item.title + item.url).localizedCaseInsensitiveContains(search))
+        }
     }
 
-    override init() {
+    init(history: HistoryStore? = nil) {
+        self.history = history ?? .shared
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .nonPersistent()
         webView = WKWebView(frame: .zero, configuration: config)
@@ -77,8 +96,29 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     }
     private func reset() {
         pause(); activeNavigation = nil; webView.stopLoading()
-        loaded = false; autoStart = false; phase = .loading
-        discoveries = []; seen = []; visited = []; queue = []; pageCount = 0; linkCount = 0; scannedCount = 0; error = nil; exportURL = nil; filter = "All"; search = ""
+        loaded = false; autoStart = false; phase = .loading; linkCount = 0; scannedCount = 0; error = nil
+        clearCollection()
+    }
+    private func clearCollection() {
+        checkTask?.cancel(); checkTask = nil; checking = false
+        explorationID = UUID(); startAddress = ""
+        discoveries = []; seen = []; visited = []; queue = []; pageCount = 0; exportFiles = []; filter = "All"; search = ""
+    }
+    /// Stores the current collection in the history. The offline demonstration is never saved.
+    func saveExploration() {
+        guard !isDemo, !discoveries.isEmpty else { return }
+        history.save(Exploration(id: explorationID, date: Date(), start: startAddress.isEmpty ? discoveries[0].page : startAddress, pages: visited.sorted(), discoveries: discoveries))
+    }
+    /// Reopens a saved exploration: its collection comes back and its first page loads, ready to continue.
+    func restore(_ exploration: Exploration) {
+        reset(); isDemo = false
+        explorationID = exploration.id; startAddress = exploration.start
+        discoveries = exploration.discoveries; seen = Set(exploration.discoveries.map(\.url))
+        visited = Set(exploration.pages); pageCount = visited.count
+        showHistory = false; tab = 2
+        guard let url = URL(string: exploration.start), ["http", "https"].contains(url.scheme ?? "") else { phase = .complete; return }
+        address = url.absoluteString; rootHost = url.host
+        activeNavigation = webView.load(URLRequest(url: url, timeoutInterval: 30))
     }
     static func normalizedURL(_ raw: String) -> URL? {
         var text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -91,7 +131,7 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     }
     func load() {
         guard let url = Self.normalizedURL(address) else { error = preferences.text("Introduz um endereço HTTP ou HTTPS válido.", "Enter a valid HTTP or HTTPS address."); return }
-        reset(); isDemo = false; rootHost = url.host; address = url.absoluteString
+        reset(); isDemo = false; rootHost = url.host; address = url.absoluteString; startAddress = address
         activeNavigation = webView.load(URLRequest(url: url, timeoutInterval: 30))
     }
     func toggle() {
@@ -105,6 +145,7 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
         nextPage?.cancel(); nextPage = nil; autoStart = false
         if running { phase = .paused }
         evaluate("window.__crawler?.pause()")
+        saveExploration()
     }
     func configure(dark: Bool) {
         darkPage = dark
@@ -144,7 +185,9 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
         guard let url = action.request.url, ["http", "https", "file"].contains(url.scheme ?? "") else { return .cancel }
         if autoStart, url.host != rootHost { pause(); phase = .complete; return .cancel }
         if action.navigationType == .linkActivated {
-            pause(); isDemo = false; rootHost = url.host
+            pause()
+            if isDemo { clearCollection(); isDemo = false; startAddress = url.absoluteString }
+            rootHost = url.host
             if action.targetFrame == nil { activeNavigation = webView.load(action.request); return .cancel }
         }
         return .allow
@@ -169,6 +212,8 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     }
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard message.frameInfo.isMainFrame, let data = message.body as? [String: Any], let kind = data["kind"] as? String else { return }
+        // A page that is being replaced can still report a few links; they must not join the new collection.
+        if kind != "ready" && phase != .scanning { return }
         switch kind {
         case "ready":
             loaded = true; linkCount = data["count"] as? Int ?? 0; phase = .ready
@@ -177,8 +222,8 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
         case "progress": scannedCount = data["scanned"] as? Int ?? scannedCount
         case "link":
             guard let url = data["url"] as? String, let title = data["title"] as? String, seen.insert(url).inserted else { return }
-            discoveries.append(Discovery(id: UUID(), title: title, url: url, type: data["type"] as? String ?? "Link", page: isDemo ? "iWebCrawler Demo" : webView.url?.absoluteString ?? ""))
-            exportURL = nil
+            discoveries.append(Discovery(id: UUID(), title: title, url: url, type: data["type"] as? String ?? "Link", page: isDemo ? "iWebCrawler Demo" : webView.url.map { canonical($0).absoluteString } ?? ""))
+            exportFiles = []
             if let next = URL(string: url), next.host == rootHost, next.query == nil, ["http", "https"].contains(next.scheme ?? "") {
                 let candidate = canonical(next)
                 if !visited.contains(candidate.absoluteString), !queue.contains(candidate) { queue.append(candidate) }
@@ -189,6 +234,7 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     }
     private func finishPage() {
         phase = .complete
+        saveExploration()
         if preferences.followLinks && !isDemo && pageCount < preferences.pageLimit && !queue.isEmpty { scheduleNext() }
     }
     private func scheduleNext() {
@@ -197,18 +243,59 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
             try? await Task.sleep(for: .seconds(2))
             guard !Task.isCancelled, let self else { return }
             guard self.preferences.followLinks, self.pageCount < self.preferences.pageLimit else { self.phase = .complete; return }
-            while let first = self.queue.first, self.visited.contains(first.absoluteString) { self.queue.removeFirst() }
+            let rules = await self.robotsRules()
+            guard !Task.isCancelled else { return }
+            while let first = self.queue.first, self.visited.contains(first.absoluteString) || !rules.allows(Self.robotsPath(first)) { self.queue.removeFirst() }
             guard !self.queue.isEmpty else { self.phase = .complete; return }
             let next = self.queue.removeFirst(); self.autoStart = true
             self.activeNavigation = self.webView.load(URLRequest(url: next, timeoutInterval: 30))
+        }
+    }
+    private func robotsRules() async -> RobotsRules {
+        guard let host = rootHost else { return .allowAll }
+        if let robots, robots.host == host { return robots.rules }
+        let rules = await RobotsRules.fetch(scheme: URL(string: startAddress)?.scheme ?? "https", host: host)
+        robots = (host, rules)
+        return rules
+    }
+    nonisolated static func robotsPath(_ url: URL) -> String {
+        let path = URLComponents(url: url, resolvingAgainstBaseURL: false)?.percentEncodedPath ?? url.path
+        return path.isEmpty ? "/" : path
+    }
+    /// Checks every unchecked link, four at a time. Calling it again while it runs stops the check.
+    func checkLinks() {
+        if checking { checkTask?.cancel(); checkTask = nil; checking = false; saveExploration(); return }
+        let pending = discoveries.filter { $0.status == nil }.map { ($0.id, $0.url) }
+        guard !pending.isEmpty else { return }
+        checking = true; checkedCount = 0; checkTotal = pending.count
+        checkTask = Task { [weak self] in
+            await withTaskGroup(of: (UUID, Int).self) { group in
+                var remaining = pending[...]
+                func enqueue() {
+                    guard let (id, url) = remaining.popFirst() else { return }
+                    group.addTask { (id, await LinkChecker.status(of: url)) }
+                }
+                for _ in 0..<4 { enqueue() }
+                for await (id, status) in group {
+                    guard let self, !Task.isCancelled else { group.cancelAll(); return }
+                    if let index = self.discoveries.firstIndex(where: { $0.id == id }) { self.discoveries[index].status = status }
+                    self.checkedCount += 1; self.exportFiles = []
+                    enqueue()
+                }
+            }
+            guard let self, !Task.isCancelled else { return }
+            self.checking = false; self.saveExploration()
         }
     }
     func prepareExport() {
         do {
             let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
             let stamp = ISO8601DateFormatter().string(from: Date()).replacingOccurrences(of: ":", with: "-")
-            let file = FileManager.default.temporaryDirectory.appendingPathComponent("iWebCrawler-\(stamp).json")
-            try encoder.encode(discoveries).write(to: file, options: .atomic); exportURL = file
-        } catch { self.error = preferences.text("Não foi possível preparar o ficheiro.", "Could not prepare the file.") }
+            let folder = FileManager.default.temporaryDirectory
+            let json = folder.appendingPathComponent("iWebCrawler-\(stamp).json"), csv = folder.appendingPathComponent("iWebCrawler-\(stamp).csv")
+            try encoder.encode(discoveries).write(to: json, options: .atomic)
+            try Data(CollectionExport.csv(discoveries).utf8).write(to: csv, options: .atomic)
+            exportFiles = [json, csv]
+        } catch { self.error = preferences.text("Não foi possível preparar os ficheiros.", "Could not prepare the files.") }
     }
 }
