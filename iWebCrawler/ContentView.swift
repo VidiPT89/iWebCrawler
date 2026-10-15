@@ -76,6 +76,7 @@ struct ContentView: View {
         .onChange(of: prefs.reducedMotion) { _, _ in model.configure(dark: scheme == .dark) }
         .onChange(of: scenePhase) { _, phase in if phase != .active { model.pause() } }
         .onAppear { model.configure(dark: scheme == .dark) }
+        .onOpenURL { model.open($0) }
         #if os(iOS)
         .sensoryFeedback(.impact(weight: .light), trigger: model.referenceCount) { old, new in new > old && !prefs.reducedMotion }
         #endif
@@ -88,7 +89,7 @@ struct ContentView: View {
     }
     private func header(wide: Bool) -> some View {
         HStack(alignment: .center, spacing: 12) {
-            SpiderMark(size: wide ? 46 : 34)
+            LogoMark(size: wide ? 48 : 36)
             VStack(alignment: .leading, spacing: 4) {
                 Text("iWebCrawler").font(.system(size: wide ? 27 : 21, weight: .semibold, design: .rounded)).tracking(-0.8)
                 if wide { Text(prefs.text("EXPLORA. LIGA. DESCOBRE.", "EXPLORE. CONNECT. DISCOVER.")).font(.system(size: 9, weight: .medium, design: .monospaced)).tracking(2.4).foregroundStyle(.secondary) }

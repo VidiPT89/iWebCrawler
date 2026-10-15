@@ -1,21 +1,13 @@
 import SwiftUI
 
-struct SpiderMark: View {
+/// The iWebCrawler logo: an amber spider inside a circuit-like web.
+struct LogoMark: View {
     var size: CGFloat = 42
+    var glow = false
     var body: some View {
-        Canvas { context, bounds in
-            let s = min(bounds.width, bounds.height), c = CGPoint(x: s / 2, y: s / 2)
-            for i in 0..<8 {
-                let side: CGFloat = i < 4 ? -1 : 1, leg = CGFloat(i % 4)
-                var path = Path()
-                path.move(to: CGPoint(x: c.x + side * s * 0.09, y: c.y + (leg - 1.5) * s * 0.055))
-                path.addLine(to: CGPoint(x: c.x + side * s * (0.26 + abs(leg - 1.5) * 0.025), y: c.y + (leg - 1.5) * s * 0.18))
-                path.addLine(to: CGPoint(x: c.x + side * s * 0.42, y: c.y + (leg - 1.5) * s * 0.25))
-                context.stroke(path, with: .color(i.isMultiple(of: 2) ? Brand.orange : Brand.gold), style: StrokeStyle(lineWidth: s * 0.035, lineCap: .round, lineJoin: .round))
-            }
-            context.fill(Path(ellipseIn: CGRect(x: c.x - s * 0.12, y: c.y - s * 0.09, width: s * 0.24, height: s * 0.34)), with: .linearGradient(Gradient(colors: [Brand.gold, Brand.orange]), startPoint: .zero, endPoint: CGPoint(x: s, y: s)))
-            context.fill(Path(ellipseIn: CGRect(x: c.x - s * 0.075, y: c.y - s * 0.23, width: s * 0.15, height: s * 0.15)), with: .color(Brand.gold))
-        }.frame(width: size, height: size).accessibilityHidden(true)
+        Image("Logo").resizable().interpolation(.high).frame(width: size, height: size)
+            .shadow(color: glow ? Brand.orange.opacity(0.45) : .clear, radius: size * 0.16)
+            .accessibilityHidden(true)
     }
 }
 
@@ -40,7 +32,7 @@ struct OrbitArtwork: View {
                     context.fill(Path(ellipseIn: CGRect(x: point.x - dot, y: point.y - dot, width: dot * 2, height: dot * 2)), with: .color(i.isMultiple(of: 3) ? Brand.orange : Brand.gold.opacity(0.7)))
                 }
             }
-        }.overlay { SpiderMark(size: 96).padding(26).background(.ultraThinMaterial, in: Circle()).overlay(Circle().stroke(Brand.amber.opacity(0.25))) }.accessibilityHidden(true)
+        }.overlay { LogoMark(size: 150, glow: true) }.accessibilityHidden(true)
     }
 }
 

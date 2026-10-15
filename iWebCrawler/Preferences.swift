@@ -18,7 +18,7 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 final class Preferences: ObservableObject {
     static let shared = Preferences()
     private let defaults: UserDefaults
-    @Published var language: AppLanguage { didSet { defaults.set(language.rawValue, forKey: "language") } }
+    @Published var language: AppLanguage { didSet { defaults.set(language.rawValue, forKey: "language"); shareLanguage() } }
     @Published var appearance: AppAppearance { didSet { defaults.set(appearance.rawValue, forKey: "appearance") } }
     @Published var speed: Double { didSet { defaults.set(speed, forKey: "speed") } }
     @Published var followLinks: Bool { didSet { defaults.set(followLinks, forKey: "followLinks") } }
@@ -34,6 +34,13 @@ final class Preferences: ObservableObject {
         followLinks = defaults.bool(forKey: "followLinks")
         pageLimit = min(20, max(1, defaults.object(forKey: "pageLimit") as? Int ?? 5))
         reducedMotion = defaults.bool(forKey: "reducedMotion")
+        shareLanguage()
+    }
+    /// The widget runs in its own process and reads the chosen language from the shared App Group.
+    private func shareLanguage() {
+        guard SharedStore.defaults?.string(forKey: "language") != language.rawValue else { return }
+        SharedStore.defaults?.set(language.rawValue, forKey: "language")
+        SharedStore.reloadWidgets()
     }
     func text(_ pt: String, _ en: String) -> String { language == .portuguese ? pt : en }
 }

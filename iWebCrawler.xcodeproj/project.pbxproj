@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0C10327282F0D1D3FB1B1D12 /* Demo.html in Resources */ = {isa = PBXBuildFile; fileRef = C200295E2E4821A59CA52463 /* Demo.html */; };
 		15695B5D09C0D6E7538B4246 /* DiscoveriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9B2217006DAD10D543334 /* DiscoveriesView.swift */; };
+		15B1AF278503613CB9616CA9 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE5CED07F4F33DBD2F55A9 /* Preferences.swift */; };
+		1739DE313A4B249A5F6CD45D /* Brand.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D13BC080337C1CB036B1124B /* Brand.xcassets */; };
 		1A9C92CBDFA8526DFD077E24 /* BrandViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9E51D845CA3DBB364D516E /* BrandViews.swift */; };
 		1AD2D948E3E9F9F6CC357055 /* Spider.js in Resources */ = {isa = PBXBuildFile; fileRef = 36C72B51D05AC6E30F1CD0FF /* Spider.js */; };
 		1D21C0EECCBA2BE674699870 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712CC763D5852DBAF763ABB5 /* Assets.xcassets */; };
@@ -20,28 +22,95 @@
 		58B4669889A2A1B8F23D329F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561CBC2EE839B29F1CD0B294 /* MapView.swift */; };
 		5D1CE075246F9C7F69CB7B17 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF9F5F1872ED74D260E8C45 /* SettingsView.swift */; };
 		692ED818765E5139D5D21B8F /* LinkTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FA0058BB2F1B394AF232A9 /* LinkTools.swift */; };
+		717FEA0BEBA844F0952C96AC /* LinkTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FA0058BB2F1B394AF232A9 /* LinkTools.swift */; };
 		75E609AF80A1FAD70782B529 /* iWebCrawlerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D378236B6019B551BD4452 /* iWebCrawlerApp.swift */; };
 		7E9964F71E95EDAFB9AAEE61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712CC763D5852DBAF763ABB5 /* Assets.xcassets */; };
+		84D3AD663AE2B21F45950DBA /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA68903A0837ED39F7763E82 /* WidgetBundle.swift */; };
 		8F2481D8AF2A64047CEB7E6B /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8E94ECE5F0FD753AE2EE71 /* HistoryView.swift */; };
 		8F3AB709F799D99C26EDC4DE /* HistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBCA72D797D3A97BF92A000 /* HistoryStore.swift */; };
 		92F7769DCE07B7D04BDB83FF /* DiscoveriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9B2217006DAD10D543334 /* DiscoveriesView.swift */; };
 		9BCDF865C129B0C3DA076964 /* CrawlerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7813CC8E740B88356691AF32 /* CrawlerModel.swift */; };
+		9C0FA23F6E658DE1C08B058C /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA97BC11AC9FEB6ABC4229D /* SafariWebExtensionHandler.swift */; };
+		9FEFCA16A254409C10B070AF /* iWebCrawlerWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6FF35EC356A38FA5D99B196E /* iWebCrawlerWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A100318B6BFBDBC6E74D1B30 /* iWebCrawlerWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801D0038ACD8964EB98F60F0 /* iWebCrawlerWidget.swift */; };
 		A84091D4DACC6E69953E418B /* Spider.js in Resources */ = {isa = PBXBuildFile; fileRef = 36C72B51D05AC6E30F1CD0FF /* Spider.js */; };
 		B6A5E85CF673052C1CE952DE /* MapLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E790EE59FED5B01AB9DE97 /* MapLayout.swift */; };
+		BAF3A3CB246EDC5F5F614989 /* HistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBCA72D797D3A97BF92A000 /* HistoryStore.swift */; };
 		C2113DEDD99B571D8E38BFA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC401E9BD2B091D4752A986B /* ContentView.swift */; };
 		C52D7A7386CAD0352BEBC21B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF9F5F1872ED74D260E8C45 /* SettingsView.swift */; };
+		C56EABD815021449A77B73C8 /* Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E6ED20FD5F50E175787306 /* Discovery.swift */; };
 		C888A30ACC6ABF0794C3923D /* iWebCrawlerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D378236B6019B551BD4452 /* iWebCrawlerApp.swift */; };
 		C9A715DBF9122BDA44B3F336 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE5CED07F4F33DBD2F55A9 /* Preferences.swift */; };
+		D004E809C2953E3B87CB5275 /* iWebCrawlerSafari-iOS.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0D844D2903AF73A817E31812 /* iWebCrawlerSafari-iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D4BA012EDD67C2DEE253494D /* Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E6ED20FD5F50E175787306 /* Discovery.swift */; };
+		D4EE6C44DFA4136D4AE32773 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA97BC11AC9FEB6ABC4229D /* SafariWebExtensionHandler.swift */; };
+		D5553EE69543A52BF904C60E /* iWebCrawlerSafari-macOS.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B1966E03C1BB899244CCE866 /* iWebCrawlerSafari-macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D9A3E9C14014789B3843DDCF /* CrawlerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7813CC8E740B88356691AF32 /* CrawlerModel.swift */; };
+		DE9C0984E9EC6AD5B7999897 /* Brand.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D13BC080337C1CB036B1124B /* Brand.xcassets */; };
 		DEE888EB5E406AF5A01BA21E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC401E9BD2B091D4752A986B /* ContentView.swift */; };
+		E127F91F2F0E2E8DD18D1CB4 /* Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E6ED20FD5F50E175787306 /* Discovery.swift */; };
 		EDAC46CFE7AB04DF5E0FEDC2 /* LinkTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FA0058BB2F1B394AF232A9 /* LinkTools.swift */; };
 		EDB4147734DD431959583783 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEE5CED07F4F33DBD2F55A9 /* Preferences.swift */; };
 		EF1E3ECEF8BB7F10BA387BE1 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8E94ECE5F0FD753AE2EE71 /* HistoryView.swift */; };
+		F9906D030EA6DCD4536F726E /* Brand.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D13BC080337C1CB036B1124B /* Brand.xcassets */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		928B97B0EBEBABC0A5B4B89C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D544B24FB1647F16312ED48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82DF350BEC42C3261CA8DA51;
+			remoteInfo = "iWebCrawlerSafari-iOS";
+		};
+		BD1E2849B0EC60D88C6DD107 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D544B24FB1647F16312ED48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0DF1016F1CF151BA5B0B79BC;
+			remoteInfo = "iWebCrawlerSafari-macOS";
+		};
+		E2C3227E938C6D99A8FA18D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D544B24FB1647F16312ED48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 398513586B0D20D094A59588;
+			remoteInfo = iWebCrawlerWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0588F984377D1CEE13C1AE6B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D5553EE69543A52BF904C60E /* iWebCrawlerSafari-macOS.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B95A617D9F4E15D76B1381E8 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9FEFCA16A254409C10B070AF /* iWebCrawlerWidget.appex in Embed Foundation Extensions */,
+				D004E809C2953E3B87CB5275 /* iWebCrawlerSafari-iOS.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		05D378236B6019B551BD4452 /* iWebCrawlerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iWebCrawlerApp.swift; sourceTree = "<group>"; };
 		08E790EE59FED5B01AB9DE97 /* MapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLayout.swift; sourceTree = "<group>"; };
+		0D844D2903AF73A817E31812 /* iWebCrawlerSafari-iOS.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = "iWebCrawlerSafari-iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FA97BC11AC9FEB6ABC4229D /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		27E6ED20FD5F50E175787306 /* Discovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discovery.swift; sourceTree = "<group>"; };
 		32B9B2217006DAD10D543334 /* DiscoveriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveriesView.swift; sourceTree = "<group>"; };
 		36C72B51D05AC6E30F1CD0FF /* Spider.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Spider.js; sourceTree = "<group>"; };
 		41FA0058BB2F1B394AF232A9 /* LinkTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTools.swift; sourceTree = "<group>"; };
@@ -51,15 +120,29 @@
 		5A9E51D845CA3DBB364D516E /* BrandViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViews.swift; sourceTree = "<group>"; };
 		6BEE5CED07F4F33DBD2F55A9 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		6EBCA72D797D3A97BF92A000 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
+		6FF35EC356A38FA5D99B196E /* iWebCrawlerWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = iWebCrawlerWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		712CC763D5852DBAF763ABB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7813CC8E740B88356691AF32 /* CrawlerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlerModel.swift; sourceTree = "<group>"; };
 		7EF9F5F1872ED74D260E8C45 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		801D0038ACD8964EB98F60F0 /* iWebCrawlerWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iWebCrawlerWidget.swift; sourceTree = "<group>"; };
 		9461BF93F799F8CB0664BF6B /* iWebCrawler.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iWebCrawler.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1966E03C1BB899244CCE866 /* iWebCrawlerSafari-macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "iWebCrawlerSafari-macOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C200295E2E4821A59CA52463 /* Demo.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Demo.html; sourceTree = "<group>"; };
+		CA68903A0837ED39F7763E82 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
+		D13BC080337C1CB036B1124B /* Brand.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Brand.xcassets; sourceTree = "<group>"; };
 		EC401E9BD2B091D4752A986B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		630CB23A27AE8D117B6C071B /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				801D0038ACD8964EB98F60F0 /* iWebCrawlerWidget.swift */,
+				CA68903A0837ED39F7763E82 /* WidgetBundle.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
 		763D9630AA68875D188FA75E /* iWebCrawler */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +150,7 @@
 				EC401E9BD2B091D4752A986B /* ContentView.swift */,
 				7813CC8E740B88356691AF32 /* CrawlerModel.swift */,
 				32B9B2217006DAD10D543334 /* DiscoveriesView.swift */,
+				27E6ED20FD5F50E175787306 /* Discovery.swift */,
 				6EBCA72D797D3A97BF92A000 /* HistoryStore.swift */,
 				4C8E94ECE5F0FD753AE2EE71 /* HistoryView.swift */,
 				05D378236B6019B551BD4452 /* iWebCrawlerApp.swift */,
@@ -85,14 +169,27 @@
 			children = (
 				4862A4AC49331002A1FCD6AB /* iWebCrawler-macOS.app */,
 				9461BF93F799F8CB0664BF6B /* iWebCrawler.app */,
+				0D844D2903AF73A817E31812 /* iWebCrawlerSafari-iOS.appex */,
+				B1966E03C1BB899244CCE866 /* iWebCrawlerSafari-macOS.appex */,
+				6FF35EC356A38FA5D99B196E /* iWebCrawlerWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		96A1E892D6C9FF6CA3679BCB /* SafariExtension */ = {
+			isa = PBXGroup;
+			children = (
+				1FA97BC11AC9FEB6ABC4229D /* SafariWebExtensionHandler.swift */,
+			);
+			path = SafariExtension;
 			sourceTree = "<group>";
 		};
 		D9A3FB4F5ABAF1411DDDB652 = {
 			isa = PBXGroup;
 			children = (
 				763D9630AA68875D188FA75E /* iWebCrawler */,
+				96A1E892D6C9FF6CA3679BCB /* SafariExtension */,
+				630CB23A27AE8D117B6C071B /* Widget */,
 				7826E31FF3645137609E2433 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				712CC763D5852DBAF763ABB5 /* Assets.xcassets */,
+				D13BC080337C1CB036B1124B /* Brand.xcassets */,
 				C200295E2E4821A59CA52463 /* Demo.html */,
 				36C72B51D05AC6E30F1CD0FF /* Spider.js */,
 			);
@@ -110,16 +208,36 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0DF1016F1CF151BA5B0B79BC /* iWebCrawlerSafari-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 500CB5248AA9060C547178CD /* Build configuration list for PBXNativeTarget "iWebCrawlerSafari-macOS" */;
+			buildPhases = (
+				18843EDFF847C0E1E21087F7 /* Sources */,
+				7E1BB93E6BF0416A30D5C79A /* Copy the web extension */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "iWebCrawlerSafari-macOS";
+			packageProductDependencies = (
+			);
+			productName = "iWebCrawlerSafari-macOS";
+			productReference = B1966E03C1BB899244CCE866 /* iWebCrawlerSafari-macOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		12A15B4F657246FEC0C661D9 /* iWebCrawler-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C8D893DFF0FD2E38750C4CEF /* Build configuration list for PBXNativeTarget "iWebCrawler-macOS" */;
 			buildPhases = (
 				E5A447112406707666FCB96B /* Sources */,
 				46AF2DBBFBCA94511FCD7E7D /* Resources */,
+				0588F984377D1CEE13C1AE6B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B5CE0A22E15CAAD651AF3894 /* PBXTargetDependency */,
 			);
 			name = "iWebCrawler-macOS";
 			packageProductDependencies = (
@@ -128,16 +246,55 @@
 			productReference = 4862A4AC49331002A1FCD6AB /* iWebCrawler-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		398513586B0D20D094A59588 /* iWebCrawlerWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87F995FCB8B07F482A0018B9 /* Build configuration list for PBXNativeTarget "iWebCrawlerWidget" */;
+			buildPhases = (
+				897892A39C30C063593C4861 /* Sources */,
+				459680BF09B57289886618A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iWebCrawlerWidget;
+			packageProductDependencies = (
+			);
+			productName = iWebCrawlerWidget;
+			productReference = 6FF35EC356A38FA5D99B196E /* iWebCrawlerWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		82DF350BEC42C3261CA8DA51 /* iWebCrawlerSafari-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1E3BF4C0BC81E731F19B07D /* Build configuration list for PBXNativeTarget "iWebCrawlerSafari-iOS" */;
+			buildPhases = (
+				B98BC1F7D8F2C52F8CA95298 /* Sources */,
+				34DDDE6E267BCF96F3DA14E2 /* Copy the web extension */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "iWebCrawlerSafari-iOS";
+			packageProductDependencies = (
+			);
+			productName = "iWebCrawlerSafari-iOS";
+			productReference = 0D844D2903AF73A817E31812 /* iWebCrawlerSafari-iOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		F74EC8BF02F67C3AEB1755E3 /* iWebCrawler */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E506FCE1B859F524B46A38B /* Build configuration list for PBXNativeTarget "iWebCrawler" */;
 			buildPhases = (
 				A087F1B08338108AC34AAD03 /* Sources */,
 				FA54BF52A61202B6800989BF /* Resources */,
+				B95A617D9F4E15D76B1381E8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CDF6FAB3D4BD63ACAB415ED7 /* PBXTargetDependency */,
+				2EFF9E2E85EAAC25E4699847 /* PBXTargetDependency */,
 			);
 			name = iWebCrawler;
 			packageProductDependencies = (
@@ -155,10 +312,24 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					0DF1016F1CF151BA5B0B79BC = {
+						DevelopmentTeam = S769436W24;
+						ProvisioningStyle = Automatic;
+					};
 					12A15B4F657246FEC0C661D9 = {
+						DevelopmentTeam = S769436W24;
+						ProvisioningStyle = Automatic;
+					};
+					398513586B0D20D094A59588 = {
+						DevelopmentTeam = S769436W24;
+						ProvisioningStyle = Automatic;
+					};
+					82DF350BEC42C3261CA8DA51 = {
+						DevelopmentTeam = S769436W24;
 						ProvisioningStyle = Automatic;
 					};
 					F74EC8BF02F67C3AEB1755E3 = {
+						DevelopmentTeam = S769436W24;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -179,16 +350,28 @@
 			targets = (
 				F74EC8BF02F67C3AEB1755E3 /* iWebCrawler */,
 				12A15B4F657246FEC0C661D9 /* iWebCrawler-macOS */,
+				398513586B0D20D094A59588 /* iWebCrawlerWidget */,
+				82DF350BEC42C3261CA8DA51 /* iWebCrawlerSafari-iOS */,
+				0DF1016F1CF151BA5B0B79BC /* iWebCrawlerSafari-macOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		459680BF09B57289886618A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9906D030EA6DCD4536F726E /* Brand.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		46AF2DBBFBCA94511FCD7E7D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				7E9964F71E95EDAFB9AAEE61 /* Assets.xcassets in Resources */,
+				1739DE313A4B249A5F6CD45D /* Brand.xcassets in Resources */,
 				0C10327282F0D1D3FB1B1D12 /* Demo.html in Resources */,
 				1AD2D948E3E9F9F6CC357055 /* Spider.js in Resources */,
 			);
@@ -199,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D21C0EECCBA2BE674699870 /* Assets.xcassets in Resources */,
+				DE9C0984E9EC6AD5B7999897 /* Brand.xcassets in Resources */,
 				51BF0553F0DDC47E52F84323 /* Demo.html in Resources */,
 				A84091D4DACC6E69953E418B /* Spider.js in Resources */,
 			);
@@ -206,7 +390,69 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		34DDDE6E267BCF96F3DA14E2 /* Copy the web extension */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy the web extension";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rsync -a --exclude .DS_Store \"${SRCROOT}/extension/\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"";
+		};
+		7E1BB93E6BF0416A30D5C79A /* Copy the web extension */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy the web extension";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rsync -a --exclude .DS_Store \"${SRCROOT}/extension/\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		18843EDFF847C0E1E21087F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C0FA23F6E658DE1C08B058C /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		897892A39C30C063593C4861 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E127F91F2F0E2E8DD18D1CB4 /* Discovery.swift in Sources */,
+				BAF3A3CB246EDC5F5F614989 /* HistoryStore.swift in Sources */,
+				717FEA0BEBA844F0952C96AC /* LinkTools.swift in Sources */,
+				15B1AF278503613CB9616CA9 /* Preferences.swift in Sources */,
+				84D3AD663AE2B21F45950DBA /* WidgetBundle.swift in Sources */,
+				A100318B6BFBDBC6E74D1B30 /* iWebCrawlerWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A087F1B08338108AC34AAD03 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -215,6 +461,7 @@
 				C2113DEDD99B571D8E38BFA6 /* ContentView.swift in Sources */,
 				9BCDF865C129B0C3DA076964 /* CrawlerModel.swift in Sources */,
 				15695B5D09C0D6E7538B4246 /* DiscoveriesView.swift in Sources */,
+				D4BA012EDD67C2DEE253494D /* Discovery.swift in Sources */,
 				8F3AB709F799D99C26EDC4DE /* HistoryStore.swift in Sources */,
 				8F2481D8AF2A64047CEB7E6B /* HistoryView.swift in Sources */,
 				EDAC46CFE7AB04DF5E0FEDC2 /* LinkTools.swift in Sources */,
@@ -226,6 +473,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B98BC1F7D8F2C52F8CA95298 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4EE6C44DFA4136D4AE32773 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E5A447112406707666FCB96B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,6 +489,7 @@
 				DEE888EB5E406AF5A01BA21E /* ContentView.swift in Sources */,
 				D9A3E9C14014789B3843DDCF /* CrawlerModel.swift in Sources */,
 				92F7769DCE07B7D04BDB83FF /* DiscoveriesView.swift in Sources */,
+				C56EABD815021449A77B73C8 /* Discovery.swift in Sources */,
 				20F5D77805C1F258A6C6A000 /* HistoryStore.swift in Sources */,
 				EF1E3ECEF8BB7F10BA387BE1 /* HistoryView.swift in Sources */,
 				692ED818765E5139D5D21B8F /* LinkTools.swift in Sources */,
@@ -247,12 +503,37 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2EFF9E2E85EAAC25E4699847 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82DF350BEC42C3261CA8DA51 /* iWebCrawlerSafari-iOS */;
+			targetProxy = 928B97B0EBEBABC0A5B4B89C /* PBXContainerItemProxy */;
+		};
+		B5CE0A22E15CAAD651AF3894 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0DF1016F1CF151BA5B0B79BC /* iWebCrawlerSafari-macOS */;
+			targetProxy = BD1E2849B0EC60D88C6DD107 /* PBXContainerItemProxy */;
+		};
+		CDF6FAB3D4BD63ACAB415ED7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 398513586B0D20D094A59588 /* iWebCrawlerWidget */;
+			targetProxy = E2C3227E938C6D99A8FA18D3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		13FAD34BCCCFF34D9497A925 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Config/iWebCrawler-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/iWebCrawler-iOS-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoadsInWebContent = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -261,6 +542,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler;
+				PRODUCT_MODULE_NAME = iWebCrawler;
+				PRODUCT_NAME = iWebCrawler;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -270,7 +554,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -304,8 +587,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = S769436W24;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -316,32 +598,101 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
-				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoadsInWebContent = YES;
 				MARKETING_VERSION = 1.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler;
-				PRODUCT_MODULE_NAME = iWebCrawler;
-				PRODUCT_NAME = iWebCrawler;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
+		2FE0AB5F18D9BBBBD6A34E9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/iWebCrawlerSafari-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler.safari;
+				PRODUCT_NAME = iWebCrawlerSafari;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		473DE70D6418F78C4333E750 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/iWebCrawlerSafari-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler.safari;
+				PRODUCT_NAME = iWebCrawlerSafari;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6996CDC69DB83D4E4FDDD888 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/iWebCrawlerSafari-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler.safari;
+				PRODUCT_NAME = iWebCrawlerSafari;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
 		6BD975CA23338DDFB9C96C14 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoadsInWebContent = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler;
+				PRODUCT_MODULE_NAME = iWebCrawler;
+				PRODUCT_NAME = iWebCrawler;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -350,7 +701,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -384,8 +734,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = S769436W24;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -402,27 +751,70 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
-				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoadsInWebContent = YES;
 				MARKETING_VERSION = 1.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler;
-				PRODUCT_MODULE_NAME = iWebCrawler;
-				PRODUCT_NAME = iWebCrawler;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
+		AFDC07E77900A705226C8FDD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/iWebCrawlerSafari-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler.safari;
+				PRODUCT_NAME = iWebCrawlerSafari;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		B9D752A9F55BC101AD57DF8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
+				CODE_SIGN_ENTITLEMENTS = Config/iWebCrawlerWidget.entitlements;
+				INFOPLIST_FILE = "Config/iWebCrawlerWidget-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler.widget;
+				PRODUCT_NAME = iWebCrawlerWidget;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D9920ECBD756C6548796CEB9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Config/iWebCrawler-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/iWebCrawler-iOS-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoadsInWebContent = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -431,22 +823,52 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler;
+				PRODUCT_MODULE_NAME = iWebCrawler;
+				PRODUCT_NAME = iWebCrawler;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		EEDE399256D6948CFD6CBBC5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
+				CODE_SIGN_ENTITLEMENTS = Config/iWebCrawlerWidget.entitlements;
+				INFOPLIST_FILE = "Config/iWebCrawlerWidget-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler.widget;
+				PRODUCT_NAME = iWebCrawlerWidget;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		F0CE95E92FAD64BB7F2EA1AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = iWebCrawler;
+				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoadsInWebContent = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.ividi.iwebcrawler;
+				PRODUCT_MODULE_NAME = iWebCrawler;
+				PRODUCT_NAME = iWebCrawler;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -454,11 +876,29 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		500CB5248AA9060C547178CD /* Build configuration list for PBXNativeTarget "iWebCrawlerSafari-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6996CDC69DB83D4E4FDDD888 /* Debug */,
+				AFDC07E77900A705226C8FDD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		5E506FCE1B859F524B46A38B /* Build configuration list for PBXNativeTarget "iWebCrawler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13FAD34BCCCFF34D9497A925 /* Debug */,
 				D9920ECBD756C6548796CEB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		87F995FCB8B07F482A0018B9 /* Build configuration list for PBXNativeTarget "iWebCrawlerWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEDE399256D6948CFD6CBBC5 /* Debug */,
+				B9D752A9F55BC101AD57DF8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -477,6 +917,15 @@
 			buildConfigurations = (
 				8E9D318C38B5506FA72D74A0 /* Debug */,
 				1F976D446E296E17598FA263 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E1E3BF4C0BC81E731F19B07D /* Build configuration list for PBXNativeTarget "iWebCrawlerSafari-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				473DE70D6418F78C4333E750 /* Debug */,
+				2FE0AB5F18D9BBBBD6A34E9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

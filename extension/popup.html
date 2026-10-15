@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iWebCrawler</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon-128.png" alt="" class="logo">
+    <div class="brand">
+      <strong>iWebCrawler</strong>
+      <span id="host" class="mono">—</span>
+    </div>
+    <button id="settings-toggle" class="icon" type="button" data-label="settings" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+    </button>
+  </header>
+
+  <section id="settings" hidden>
+    <label><span data-text="language"></span>
+      <select id="language"><option value="pt-PT">Português (Portugal)</option><option value="en">English</option></select>
+    </label>
+    <label><span data-text="appearance"></span>
+      <select id="theme"><option value="system" data-text="system"></option><option value="light" data-text="light"></option><option value="dark" data-text="dark"></option></select>
+    </label>
+    <label><span data-text="speed"></span>
+      <select id="speed"><option value="0.5">0.5×</option><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select>
+    </label>
+    <label class="check"><input type="checkbox" id="reduced-motion"> <span data-text="reducedMotion"></span></label>
+    <p class="credits"><span data-text="developedBy"></span> <a href="https://ividi.dev/" target="_blank" rel="noopener">David Arsénio Martins</a></p>
+  </section>
+
+  <main>
+    <p id="notice" class="notice" hidden></p>
+    <div class="metrics">
+      <div><b id="links-count">0</b><span id="links-label" data-text="links"></span></div>
+      <div><b id="refs-count">0</b><span id="refs-label" data-text="references"></span></div>
+      <button id="toggle" class="primary" type="button"><span id="toggle-label" data-text="explore"></span></button>
+    </div>
+    <div class="status"><span id="status" data-text="ready"></span><span id="progress-text" class="mono">0 / 0</span></div>
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></div>
+    <nav id="filters" class="filters" aria-label="Filters"></nav>
+    <ol id="list" class="list"></ol>
+    <p id="empty" class="empty" data-text="empty"></p>
+  </main>
+
+  <footer>
+    <button id="export-json" type="button" disabled>JSON</button>
+    <button id="export-csv" type="button" disabled>CSV</button>
+    <button id="copy" type="button" disabled data-text="copy"></button>
+  </footer>
+  <script src="popup.js"></script>
+</body>
+</html>

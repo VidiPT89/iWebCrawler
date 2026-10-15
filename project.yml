@@ -3,36 +3,137 @@ options:
   bundleIdPrefix: dev.ividi
 settings:
   base:
-    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     SWIFT_VERSION: '6.0'
-    GENERATE_INFOPLIST_FILE: YES
     MARKETING_VERSION: '1.2'
     CURRENT_PROJECT_VERSION: '3'
-    INFOPLIST_KEY_CFBundleDisplayName: iWebCrawler
     CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: S769436W24
+settingGroups:
+  app:
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: iWebCrawler
     PRODUCT_NAME: iWebCrawler
     PRODUCT_MODULE_NAME: iWebCrawler
     PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.iwebcrawler
     ENABLE_APP_SANDBOX: YES
     ENABLE_HARDENED_RUNTIME: YES
     INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoadsInWebContent: YES
+  safari:
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+    PRODUCT_NAME: iWebCrawlerSafari
+    PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.iwebcrawler.safari
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: iWebCrawler
+    ENABLE_APP_SANDBOX: YES
+    ENABLE_HARDENED_RUNTIME: YES
 targets:
   iWebCrawler:
     type: application
     platform: iOS
     deploymentTarget: '17.0'
     sources: [iWebCrawler]
+    info:
+      path: Config/iWebCrawler-iOS-Info.plist
+      properties:
+        CFBundleURLTypes:
+          - CFBundleURLName: dev.ividi.iwebcrawler
+            CFBundleURLSchemes: [iwebcrawler]
+    entitlements:
+      path: Config/iWebCrawler-iOS.entitlements
+      properties:
+        com.apple.security.application-groups: [group.dev.ividi.iwebcrawler]
     settings:
+      groups: [app]
       base:
         TARGETED_DEVICE_FAMILY: '1,2'
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+    dependencies:
+      - target: iWebCrawlerWidget
+      - target: iWebCrawlerSafari-iOS
   iWebCrawler-macOS:
     type: application
     platform: macOS
     deploymentTarget: '14.0'
     sources: [iWebCrawler]
     settings:
+      groups: [app]
       base:
         ENABLE_OUTGOING_NETWORK_CONNECTIONS: YES
+    dependencies:
+      - target: iWebCrawlerSafari-macOS
+  iWebCrawlerWidget:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: '17.0'
+    sources:
+      - Widget
+      - iWebCrawler/Discovery.swift
+      - iWebCrawler/LinkTools.swift
+      - iWebCrawler/HistoryStore.swift
+      - iWebCrawler/Preferences.swift
+      - iWebCrawler/Resources/Brand.xcassets
+    info:
+      path: Config/iWebCrawlerWidget-Info.plist
+      properties:
+        CFBundleDisplayName: iWebCrawler
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: Config/iWebCrawlerWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.dev.ividi.iwebcrawler]
+    settings:
+      base:
+        PRODUCT_NAME: iWebCrawlerWidget
+        PRODUCT_BUNDLE_IDENTIFIER: dev.ividi.iwebcrawler.widget
+        TARGETED_DEVICE_FAMILY: '1,2'
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: NO
+  iWebCrawlerSafari-iOS:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: '17.0'
+    sources: [SafariExtension]
+    postBuildScripts:
+      - name: Copy the web extension
+        # Safari reads manifest.json from the root of the extension's resources, as in Xcode's own template.
+        script: rsync -a --exclude .DS_Store "${SRCROOT}/extension/" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/"
+        basedOnDependencyAnalysis: false
+    info:
+      path: Config/iWebCrawlerSafari-Info.plist
+      properties:
+        CFBundleDisplayName: iWebCrawler
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.Safari.web-extension
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).SafariWebExtensionHandler
+    settings:
+      groups: [safari]
+      base:
+        TARGETED_DEVICE_FAMILY: '1,2'
+  iWebCrawlerSafari-macOS:
+    type: app-extension
+    platform: macOS
+    deploymentTarget: '14.0'
+    sources: [SafariExtension]
+    postBuildScripts:
+      - name: Copy the web extension
+        # Safari reads manifest.json from the root of the extension's resources, as in Xcode's own template.
+        script: rsync -a --exclude .DS_Store "${SRCROOT}/extension/" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/"
+        basedOnDependencyAnalysis: false
+    info:
+      path: Config/iWebCrawlerSafari-Info.plist
+      properties:
+        CFBundleDisplayName: iWebCrawler
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.Safari.web-extension
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).SafariWebExtensionHandler
+    settings:
+      groups: [safari]

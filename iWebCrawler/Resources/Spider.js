@@ -15,7 +15,9 @@
     try { return /^https?:$/.test(new URL(a.href).protocol) && a.getClientRects().length && label(a); }
     catch { return false; }
   }).slice(0, 1500);
-  function post(kind, data) { window.webkit?.messageHandlers?.crawler?.postMessage({ kind, ...data }); }
+  // The app listens through WebKit; the browser extension installs its own receiver first.
+  const send = window.__crawlerSend || (message => window.webkit?.messageHandlers?.crawler?.postMessage(message));
+  function post(kind, data) { send({ kind, ...data }); }
   function classify(a) {
     const text = a.href + ' ' + label(a);
     if (/doi\.org|10\.\d{4,9}\//i.test(text)) return 'DOI';

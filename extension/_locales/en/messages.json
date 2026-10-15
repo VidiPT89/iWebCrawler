@@ -1,0 +1,4 @@
+{
+  "extensionName": { "message": "iWebCrawler" },
+  "extensionDescription": { "message": "Follow the thread: an animated spider explores the current page, collects its links and spots DOI, PMID, ISBN and Bibcode references." }
+}

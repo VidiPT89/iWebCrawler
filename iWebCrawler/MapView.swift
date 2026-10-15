@@ -40,7 +40,7 @@ struct ConnectionMap: View {
             .clipped()
             .overlay {
                 if model.discoveries.isEmpty {
-                    VStack(spacing: 12) { SpiderMark(size: 60); Text(prefs.text("A tua teia começa com uma ligação.", "Your web begins with one link.")).font(.caption).foregroundStyle(.secondary) }
+                    VStack(spacing: 12) { LogoMark(size: 72); Text(prefs.text("A tua teia começa com uma ligação.", "Your web begins with one link.")).font(.caption).foregroundStyle(.secondary) }
                 }
             }
             legend

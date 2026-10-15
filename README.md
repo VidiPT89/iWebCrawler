@@ -1,17 +1,20 @@
 # 🕷️ iWebCrawler
 
-> Follow the thread. A native visual web explorer for iPhone, iPad and Mac, with an animated spider that brings the connections between pages to life.
+> Follow the thread. A native visual web explorer for iPhone, iPad and Mac, with a browser extension for Safari, Chrome, Brave, Edge, Opera and Firefox, a Home Screen widget and an animated spider that brings the connections between pages to life.
 
 [![Report Bug](https://img.shields.io/badge/Report-Bug-red)](https://github.com/VidiPT89/iWebCrawler/issues)
 [![Request Feature](https://img.shields.io/badge/Request-Feature-blue)](https://github.com/VidiPT89/iWebCrawler/issues)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20iPadOS%20%7C%20macOS-d97706)](#-quick-start)
+[![Browsers](https://img.shields.io/badge/extension-Safari%20%7C%20Chrome%20%7C%20Brave%20%7C%20Edge%20%7C%20Firefox-ea580c)](#-browser-extension)
 
 <p align="center">
-  <img src="iWebCrawler/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png" width="144" alt="iWebCrawler: an amber and burnt-orange spider on a dark background">
+  <img src="iWebCrawler/Resources/Brand.xcassets/Logo.imageset/Logo.png" width="160" alt="iWebCrawler logo: a glowing amber spider inside a circuit-like web">
 </p>
 
 ## ✨ Features
 
+- ✅ A browser extension with the same spider for Safari (Mac, iPhone and iPad), Chrome, Brave, Edge, Opera and Firefox: explore the page you are reading, filter its references and export them as JSON or CSV
+- ✅ A Home Screen and Lock Screen widget on iPhone and iPad with your latest explorations; tap one to reopen it
 - ✅ Eight articulated legs, glowing joints and a silk trail: the spider moves across real web pages and highlights the links it discovers
 - ✅ Native SwiftUI workspace with an embedded WebKit browser, an adaptive discoveries panel and a live connection map
 - ✅ A connection map that shows the real graph: every explored page is a hub, followed links are drawn as paths, and you can tap a point for details, zoom and pan
@@ -40,6 +43,8 @@
 | Native interface | SwiftUI |
 | Browser | WebKit / WKWebView |
 | Spider rendering | JavaScript and Canvas 2D |
+| Browser extension | WebExtensions Manifest V3 (Chromium, Firefox) and Safari Web Extension |
+| Widget | WidgetKit with an App Group shared with the app |
 | Connection map | SwiftUI Canvas and TimelineView |
 | Preferences | UserDefaults |
 | History | Codable JSON file in Application Support |
@@ -73,7 +78,24 @@ open iWebCrawler.xcodeproj
 2. Choose your simulator, device or **My Mac**.
 3. Press **⌘R** to build and run. For a physical iPhone or iPad, select your development team under Signing & Capabilities.
 
-The Xcode project is included. After adding or moving source files, regenerate it with `xcodegen generate`.
+The Xcode project is included. After adding or moving source files, regenerate it with `xcodegen generate`. The project uses the development team set in `project.yml`; replace `DEVELOPMENT_TEAM` with your own to sign the app, the widget and the Safari extension.
+
+To add the widget, touch and hold the Home Screen, choose **Edit › Add Widget** and search for **iWebCrawler**.
+
+### 🧩 Browser extension
+
+The `extension` folder is a single Manifest V3 extension. Download `iWebCrawler-extension-1.2.0.zip` from the [latest release](https://github.com/VidiPT89/iWebCrawler/releases/latest), or build it with `./scripts/build-extension.sh`.
+
+| Browser | How to install |
+|---------|----------------|
+| Chrome, Brave, Edge, Opera | Open `chrome://extensions` (or `brave://`, `edge://`, `opera://`), turn on **Developer mode**, choose **Load unpacked** and select the `extension` folder (or the unzipped release) |
+| Firefox | Open `about:debugging#/runtime/this-firefox`, choose **Load Temporary Add-on** and select `extension/manifest.json` |
+| Safari on Mac | Run the Mac app once, then open **Safari › Settings › Extensions** and turn on **iWebCrawler** (the app's **Settings › Turn on in Safari** opens it for you). For a build signed only for development, first enable **Develop › Allow Unsigned Extensions** |
+| Safari on iPhone and iPad | Install the app, then go to **Settings › Apps › Safari › Extensions › iWebCrawler** |
+
+Click the spider in the toolbar (or press **Alt+Shift+E**), then **Explore**. The extension asks for no permanent access to your websites: it only runs on the tab where you open it. Pages that browsers protect, such as internal settings pages and extension stores, cannot be explored.
+
+The app icon, the in-app logo, the widget logo and the extension icons are all generated from `design/iWebCrawler-logo.jpeg` with `swift scripts/MakeIcons.swift`.
 
 ## 📖 Usage
 
@@ -121,7 +143,7 @@ Appearance changes the native interface and the bundled demonstration. Third-par
 ```bash
 node --test tests/spider.test.cjs
 swiftc -swift-version 6 -module-cache-path /tmp/iwebcrawler-swift-cache \
-  iWebCrawler/Preferences.swift iWebCrawler/CrawlerModel.swift \
+  iWebCrawler/Preferences.swift iWebCrawler/CrawlerModel.swift iWebCrawler/Discovery.swift \
   iWebCrawler/LinkTools.swift iWebCrawler/HistoryStore.swift iWebCrawler/MapLayout.swift \
   tests/NativeChecks.swift -o /tmp/iwebcrawler-native-checks
 /tmp/iwebcrawler-native-checks
@@ -133,11 +155,11 @@ xcodebuild -project iWebCrawler.xcodeproj -scheme iWebCrawler \
   CODE_SIGNING_ALLOWED=NO build
 ```
 
-The JavaScript suite covers protocol filtering, deduplication, reference classification, accessible link labels, progress, pause/resume, restart, empty pages and speed changes. Native checks cover URL validation, language selection, appearance mapping, preference restoration and bounds, `robots.txt` rules, CSV escaping, link status classification, history persistence and limits, and the map layout.
+The JavaScript suite covers protocol filtering, deduplication, reference classification, accessible link labels, progress, pause/resume, restart, empty pages and speed changes, plus the browser extension: the shared spider, the page bridge, the manifest and both translations. Native checks cover URL validation, language selection, appearance mapping, preference restoration and bounds, `robots.txt` rules, CSV escaping, link status classification, history persistence and limits, and the map layout.
 
 ## 🔒 Privacy
 
-No account, telemetry or application server is used. Settings and the exploration history are stored on the device only, and the history can be deleted from the History screen. The browser uses a non-persistent website data store. Websites you open still receive ordinary web requests and may apply their own privacy policies; link checking contacts each checked address, and automatic following requests the site's `robots.txt`. Exports contain the URLs you explored and the titles collected from them.
+No account, telemetry or application server is used. Settings and the exploration history are stored on the device only, and the history can be deleted from the History screen. The browser uses a non-persistent website data store. Websites you open still receive ordinary web requests and may apply their own privacy policies; link checking contacts each checked address, and automatic following requests the site's `robots.txt`. Exports contain the URLs you explored and the titles collected from them. The browser extension keeps its collection in the open tab only, stores just its own settings, and sends nothing anywhere. The widget reads the history from an App Group shared with the app, on the device.
 
 ## 📄 License
 

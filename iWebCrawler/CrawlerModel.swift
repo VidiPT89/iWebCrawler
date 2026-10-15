@@ -1,17 +1,6 @@
 import SwiftUI
 import WebKit
 
-struct Discovery: Identifiable, Codable {
-    let id: UUID
-    let title: String
-    let url: String
-    let type: String
-    let page: String
-    var status: Int? = nil
-    var host: String { URL(string: url)?.host ?? url }
-    var health: LinkHealth { LinkHealth(status: status) }
-}
-
 enum CrawlPhase { case loading, ready, scanning, paused, complete, waiting, failed }
 
 @MainActor
@@ -108,6 +97,13 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     func saveExploration() {
         guard !isDemo, !discoveries.isEmpty else { return }
         history.save(Exploration(id: explorationID, date: Date(), start: startAddress.isEmpty ? discoveries[0].page : startAddress, pages: visited.sorted(), discoveries: discoveries))
+    }
+    /// Links from the widget: `iwebcrawler://history/<id>` reopens an exploration, `iwebcrawler://history` shows the list.
+    func open(_ link: URL) {
+        guard link.scheme == "iwebcrawler", link.host == "history" else { return }
+        showSplash = false
+        if let id = UUID(uuidString: link.lastPathComponent), let item = history.items.first(where: { $0.id == id }) { restore(item) }
+        else { showHistory = true }
     }
     /// Reopens a saved exploration: its collection comes back and its first page loads, ready to continue.
     func restore(_ exploration: Exploration) {
