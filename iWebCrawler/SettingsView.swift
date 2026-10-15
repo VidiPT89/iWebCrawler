@@ -56,6 +56,8 @@ struct SettingsView: View {
                     }.padding(.vertical, 4)
                     CreditsView().frame(maxWidth: .infinity).padding(.vertical, 12)
                     Text(prefs.text("Sem contas, análises de utilização ou servidor próprio. Os sites que visitas recebem os pedidos normais de navegação, e a verificação de ligações contacta cada endereço verificado. O histórico fica apenas neste dispositivo.", "No accounts, analytics or backend. Websites you visit receive normal browsing requests, and link checking contacts each checked address. Your history stays on this device only.")).font(.caption).foregroundStyle(.secondary)
+                    Link(prefs.text("Política de privacidade", "Privacy policy"), destination: URL(string: "https://github.com/VidiPT89/iWebCrawler/blob/main/PRIVACY.md")!)
+                        .foregroundStyle(Brand.accent(scheme))
                     Button(prefs.text("Rever apresentação", "Replay introduction")) {
                         model.pause(); model.showSettings = false; model.showSplash = true
                     }

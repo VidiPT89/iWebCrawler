@@ -17,7 +17,7 @@ struct MapLayout {
         var pages: [String] = []
         for entry in entries where !pages.contains(entry.page) { pages.append(entry.page) }
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
-        let radius = max(40, min(size.width, size.height) * 0.4)
+        let radius = Self.radius(for: size)
         let stagger = entries.count > 24
         var hubs: [Hub] = [], leaves: [Leaf] = [], slot = 0
         for page in pages {
@@ -50,6 +50,9 @@ struct MapLayout {
         }
         self.hubs = hubs; self.leaves = leaves
     }
+
+    /// Narrow screens get a smaller ring so the labels around it still fit.
+    static func radius(for size: CGSize) -> CGFloat { max(40, min(size.width * 0.28, size.height * 0.4)) }
 
     /// The link drawn closest to `point`, if one lies within `tolerance`. `transform` maps layout points to the screen.
     func discovery(near point: CGPoint, tolerance: CGFloat, transform: (CGPoint) -> CGPoint = { $0 }) -> Discovery? {

@@ -100,7 +100,7 @@ struct ContentView: View {
                     .labelStyle(AdaptiveLabelStyle(iconOnly: !wide))
             }.buttonStyle(.bordered).controlSize(.small).accessibilityLabel(prefs.text("Demonstração", "Demo"))
             Button { model.showHistory = true } label: { Image(systemName: "clock.arrow.circlepath").font(.system(size: 17, weight: .regular)).frame(width: 34, height: 34) }
-                .buttonStyle(.plain).accessibilityLabel(prefs.text("Histórico", "History")).keyboardShortcut("y", modifiers: .command)
+                .buttonStyle(.plain).accessibilityLabel(prefs.text("Histórico", "History")).accessibilityIdentifier("history.open").keyboardShortcut("y", modifiers: .command)
             Button { model.showSettings = true } label: { Image(systemName: "gearshape").font(.system(size: 17, weight: .regular)).frame(width: 34, height: 34) }
                 .buttonStyle(.plain).accessibilityLabel(prefs.text("Definições", "Settings")).accessibilityIdentifier("settings.open")
                 .keyboardShortcut(",", modifiers: .command)

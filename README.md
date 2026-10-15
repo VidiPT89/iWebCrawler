@@ -156,11 +156,18 @@ xcodebuild -project iWebCrawler.xcodeproj -scheme iWebCrawler \
   CODE_SIGNING_ALLOWED=NO build
 ```
 
+The iOS UI test (`iWebCrawlerUITests`) walks through the demo, the map, link checking and Settings on a simulator and keeps a screenshot of each screen; set `TEST_RUNNER_STORE_LANGUAGE=en` or `pt-PT` to choose the language:
+
+```bash
+xcodebuild test -project iWebCrawler.xcodeproj -scheme iWebCrawler \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:iWebCrawlerUITests
+```
+
 The JavaScript suite covers protocol filtering, deduplication, reference classification, accessible link labels, progress, pause/resume, restart, empty pages and speed changes, plus the browser extension: the shared spider, the page bridge, the manifest and both translations. Native checks cover URL validation, language selection, appearance mapping, preference restoration and bounds, `robots.txt` rules, CSV escaping, link status classification, history persistence and limits, and the map layout.
 
 ## 🔒 Privacy
 
-No account, telemetry or application server is used. Settings and the exploration history are stored on the device only, and the history can be deleted from the History screen. The browser uses a non-persistent website data store. Websites you open still receive ordinary web requests and may apply their own privacy policies; link checking contacts each checked address, and automatic following requests the site's `robots.txt`. Exports contain the URLs you explored and the titles collected from them. The browser extension keeps its collection in the open tab only, stores just its own settings, and sends nothing anywhere. The widget reads the history from an App Group shared with the app, on the device.
+See the full [privacy policy](PRIVACY.md). No account, telemetry or application server is used. Settings and the exploration history are stored on the device only, and the history can be deleted from the History screen. The browser uses a non-persistent website data store. Websites you open still receive ordinary web requests and may apply their own privacy policies; link checking contacts each checked address, and automatic following requests the site's `robots.txt`. Exports contain the URLs you explored and the titles collected from them. The browser extension keeps its collection in the open tab only, stores just its own settings, and sends nothing anywhere. The widget reads the history from an App Group shared with the app, on the device.
 
 ## 📄 License
 

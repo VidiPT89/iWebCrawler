@@ -85,7 +85,7 @@ struct ConnectionMap: View {
 
     private func draw(_ layout: MapLayout, in context: inout GraphicsContext, place: (CGPoint) -> CGPoint, time: Double) {
         let center = place(CGPoint(x: context.clipBoundingRect.midX, y: context.clipBoundingRect.midY))
-        let radius = max(40, min(context.clipBoundingRect.width, context.clipBoundingRect.height) * 0.4) * zoom
+        let radius = MapLayout.radius(for: context.clipBoundingRect.size) * zoom
         for ring in [0.32, 0.84, 1.0] {
             let r = radius * ring
             context.stroke(Path(ellipseIn: CGRect(x: center.x - r, y: center.y - r, width: r * 2, height: r * 2)), with: .color(Brand.amber.opacity(0.12)), style: StrokeStyle(lineWidth: 1, dash: [2, 6]))
@@ -105,13 +105,25 @@ struct ConnectionMap: View {
             context.stroke(line, with: .color(Brand.orange.opacity(0.8)), style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [5, 4]))
         }
         let showAll = layout.leaves.count <= 24 || zoom >= 1.6
+        var taken: [CGRect] = []
+        // As many characters as fit between the ring and the edge (monospaced, about 5.5 pt each).
+        let room = context.clipBoundingRect.width / 2 - MapLayout.radius(for: context.clipBoundingRect.size) * zoom - 14
+        let maxCharacters = zoom > 1 ? 20 : min(20, max(8, Int(room / 5.5)))
         for (i, leaf) in layout.leaves.enumerated() {
             let p = place(leaf.point), node = Path(ellipseIn: CGRect(x: p.x - 4, y: p.y - 4, width: 8, height: 8))
             if leaf.discovery.health.isProblem { context.fill(node, with: .color(Brand.broken)) }
             else if leaf.discovery.type == "Link" { context.stroke(node, with: .color(Brand.amber), lineWidth: 1.5) }
             else { context.fill(node, with: .color(Brand.orange)) }
             if showAll || i.isMultiple(of: 3) {
-                context.draw(Text(Self.shortLabel(leaf.discovery)).font(.system(size: 9, design: .monospaced)).foregroundStyle(Brand.accent(scheme)), at: CGPoint(x: p.x, y: p.y + 15))
+                // Labels sit outside the ring, in the direction of their point, so neighbours do not collide.
+                let dx = p.x - center.x, dy = p.y - center.y, distance = max(1, hypot(dx, dy))
+                let anchor = UnitPoint(x: 0.5 - dx / distance * 0.5, y: 0.5 - dy / distance * 0.5)
+                let text = Self.shortLabel(leaf.discovery, max: maxCharacters), at = CGPoint(x: p.x + dx / distance * 9, y: p.y + dy / distance * 9)
+                // A label that would overlap one already drawn is skipped; tapping the point or zooming in still shows it.
+                let width = CGFloat(text.count) * 5.5, frame = CGRect(x: at.x - width * anchor.x, y: at.y - 11 * anchor.y, width: width, height: 11)
+                guard !taken.contains(where: { $0.insetBy(dx: -3, dy: -1).intersects(frame) }) else { continue }
+                taken.append(frame)
+                context.draw(Text(text).font(.system(size: 9, design: .monospaced)).foregroundStyle(Brand.accent(scheme)), at: at, anchor: anchor)
             }
         }
         for hub in layout.hubs {
@@ -124,10 +136,10 @@ struct ConnectionMap: View {
     }
 
     /// A link's title says more than its host, which repeats for every link inside one website.
-    static func shortLabel(_ item: Discovery) -> String {
+    static func shortLabel(_ item: Discovery, max: Int = 20) -> String {
         let host = item.host.hasPrefix("www.") ? String(item.host.dropFirst(4)) : item.host
         let text = item.title.isEmpty ? host : item.title
-        return text.count > 20 ? text.prefix(19) + "…" : text
+        return text.count > max ? text.prefix(max - 1) + "…" : text
     }
     static func shortPage(_ page: String) -> String {
         guard let url = URL(string: page) else { return String(page.prefix(22)) }

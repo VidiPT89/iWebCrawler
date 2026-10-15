@@ -68,23 +68,31 @@ struct DiscoveriesView: View {
             }
             Divider()
             VStack(spacing: 8) {
-                if !model.discoveries.isEmpty {
-                    Button { model.checkLinks() } label: {
-                        Label(model.checking ? prefs.text("A verificar \(model.checkedCount) / \(model.checkTotal) · Parar", "Checking \(model.checkedCount) / \(model.checkTotal) · Stop") : prefs.text("Verificar ligações", "Check links"), systemImage: model.checking ? "stop.circle" : "checkmark.shield")
-                    }.buttonStyle(.bordered).disabled(!model.checking && !model.discoveries.contains { $0.status == nil })
-                }
-                if model.exportFiles.count == 2 {
-                    HStack {
-                        ShareLink(item: model.exportFiles[0]) { Label("JSON", systemImage: "curlybraces") }
-                        ShareLink(item: model.exportFiles[1]) { Label("CSV", systemImage: "tablecells") }
-                    }.buttonStyle(.borderedProminent).tint(Brand.amber)
-                } else {
-                    Button { model.pause(); model.prepareExport() } label: { Label(prefs.text("Exportar coleção", "Export collection"), systemImage: "square.and.arrow.up") }
-                        .buttonStyle(.bordered).disabled(model.discoveries.isEmpty)
+                // Side by side when there is room, stacked in a narrow panel.
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 8) { footerActions }
+                    VStack(spacing: 8) { footerActions }
                 }
                 Text(model.isDemo ? prefs.text("A demonstração não é guardada no histórico.", "The demonstration is not saved to your history.") : prefs.text("Guardada no histórico deste dispositivo.", "Saved to this device’s history.")).font(.system(size: 9)).foregroundStyle(.secondary)
             }.frame(maxWidth: .infinity).padding(16)
         }.background(Brand.surface(scheme))
+    }
+
+    @ViewBuilder private var footerActions: some View {
+        if !model.discoveries.isEmpty {
+            Button { model.checkLinks() } label: {
+                Label(model.checking ? prefs.text("A verificar \(model.checkedCount) / \(model.checkTotal) · Parar", "Checking \(model.checkedCount) / \(model.checkTotal) · Stop") : prefs.text("Verificar ligações", "Check links"), systemImage: model.checking ? "stop.circle" : "checkmark.shield")
+            }.buttonStyle(.bordered).disabled(!model.checking && !model.discoveries.contains { $0.status == nil }).accessibilityIdentifier("links.check")
+        }
+        if model.exportFiles.count == 2 {
+            HStack {
+                ShareLink(item: model.exportFiles[0]) { Label("JSON", systemImage: "curlybraces") }
+                ShareLink(item: model.exportFiles[1]) { Label("CSV", systemImage: "tablecells") }
+            }.buttonStyle(.borderedProminent).tint(Brand.amber)
+        } else {
+            Button { model.pause(); model.prepareExport() } label: { Label(prefs.text("Exportar coleção", "Export collection"), systemImage: "square.and.arrow.up") }
+                .buttonStyle(.bordered).disabled(model.discoveries.isEmpty)
+        }
     }
 }
 
