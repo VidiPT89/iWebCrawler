@@ -1,4 +1,8 @@
 {
-  "extensionName": { "message": "iWebCrawler" },
-  "extensionDescription": { "message": "Segue o fio: uma aranha animada explora a página aberta, recolhe as ligações e identifica referências DOI, PMID, ISBN e Bibcode." }
+  "extensionName": {
+    "message": "iWebCrawler"
+  },
+  "extensionDescription": {
+    "message": "Uma aranha animada explora a página, recolhe as ligações e identifica referências DOI, PMID, ISBN e outras."
+  }
 }
