@@ -22,7 +22,7 @@ const TEXT = {
     blocked: 'The browser protects this page (internal pages and extension stores). Open a regular website to explore it.'
   }
 };
-const TYPES = ['DOI', 'PMID', 'ISBN', 'Bibcode', 'Link'];
+const TYPES = ['DOI', 'PMID', 'PMC', 'ISBN', 'ISSN', 'Bibcode', 'arXiv', 'S2CID', 'OCLC', 'hdl', 'Link'];
 const $ = id => document.getElementById(id);
 let prefs = { language: navigator.language?.toLowerCase().startsWith('pt') ? 'pt-PT' : 'en', theme: 'system', speed: 1, reducedMotion: false };
 let tab = null, state = null, filter = 'All', blocked = false;

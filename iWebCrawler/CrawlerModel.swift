@@ -45,9 +45,11 @@ final class CrawlerModel: NSObject, ObservableObject, WKNavigationDelegate, WKSc
     var progress: Double { linkCount > 0 ? min(1, Double(scannedCount) / Double(linkCount)) : 0 }
     var referenceCount: Int { discoveries.filter { $0.type != "Link" }.count }
     var exploredPages: [String] { isDemo ? [] : visited.sorted() }
+    /// Every type the spider recognises, in the order the filters show them.
+    static let referenceTypes = ["DOI", "PMID", "PMC", "ISBN", "ISSN", "Bibcode", "arXiv", "S2CID", "OCLC", "hdl", "Link"]
     var problemCount: Int { discoveries.filter { $0.health.isProblem }.count }
     var availableFilters: [String] {
-        ["All"] + ["DOI", "PMID", "ISBN", "Bibcode", "Link"].filter { type in discoveries.contains { $0.type == type } } + (problemCount > 0 ? ["Broken"] : [])
+        ["All"] + Self.referenceTypes.filter { type in discoveries.contains { $0.type == type } } + (problemCount > 0 ? ["Broken"] : [])
     }
     var filtered: [Discovery] {
         discoveries.filter { item in

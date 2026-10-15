@@ -18,27 +18,89 @@
   // The app listens through WebKit; the browser extension installs its own receiver first.
   const send = window.__crawlerSend || (message => window.webkit?.messageHandlers?.crawler?.postMessage(message));
   function post(kind, data) { send({ kind, ...data }); }
+  // Order matters: PubMed Central before PubMed, DOI before everything that may quote one.
+  const RULES = [
+    ['DOI', /doi\.org\/|\bdoi:|10\.\d{4,9}\//i],
+    ['PMC', /\/pmc\/|pmc\.ncbi|\bPMC\s?\d{4,}/i],
+    ['PMID', /pubmed|\bPMID\b/i],
+    ['arXiv', /arxiv\.org|\barXiv:/i],
+    ['Bibcode', /bibcode|adsabs\.harvard/i],
+    ['ISBN', /\bisbn\b|booksources/i],
+    ['ISSN', /\bissn\b/i],
+    ['S2CID', /semanticscholar\.org|\bS2CID\b/i],
+    ['OCLC', /worldcat\.org\/(?:oclc|title)|\bOCLC\b/i],
+    ['hdl', /hdl\.handle\.net|\bhdl:/i]
+  ];
   function classify(a) {
     const text = a.href + ' ' + label(a);
-    if (/doi\.org|10\.\d{4,9}\//i.test(text)) return 'DOI';
-    if (/pubmed|PMID/i.test(text)) return 'PMID';
-    if (/isbn|booksources/i.test(text)) return 'ISBN';
-    if (/bibcode|adsabs\.harvard|ui\.adsabs/i.test(text)) return 'Bibcode';
-    return 'Link';
+    return RULES.find(([, pattern]) => pattern.test(text))?.[0] ?? 'Link';
+  }
+
+  // The highlight effect: identifiers jump off the page in bright colours and mixed typefaces,
+  // some inside solid blocks or turned on their side, with a wide beam from the spider.
+  const inks = ['#ff2bd6', '#3ee0ff', '#ffc83d', '#ff7a1a', '#8f7bff', '#4dff9a'];
+  const faces = ['"Courier New", ui-monospace, monospace', 'Georgia, "Times New Roman", serif', '"Helvetica Neue", Arial, sans-serif'];
+  const any = list => list[Math.floor(Math.random() * list.length)];
+  let layer = null;
+  function overlay() {
+    if (layer?.isConnected) return layer;
+    layer = document.createElement('div');
+    layer.setAttribute('aria-hidden', 'true');
+    layer.style.cssText = 'position:absolute;left:0;top:0;width:0;height:0;overflow:visible;pointer-events:none;z-index:2147483646';
+    document.documentElement.appendChild(layer);
+    return layer;
+  }
+  function highlight(a, type, tone) {
+    const reference = type !== 'Link', ink = reference ? any(inks) : tone;
+    a.style.outline = `${reference ? 2 : 1}px solid ${ink}`;
+    a.style.outlineOffset = '3px';
+    a.style.borderRadius = '3px';
+    a.style.backgroundColor = ink + (reference ? '33' : '28');
+    if (reference) { a.style.color = ink; a.style.fontFamily = any(faces); }
+    if (reduced() || (!reference && Math.random() > 0.4)) return;
+    const r = a.getBoundingClientRect(), left = r.left + (window.scrollX || 0), top = r.top + (window.scrollY || 0);
+    const face = any(faces), block = reference && Math.random() < 0.35;
+    const size = reference ? 18 + Math.random() * 24 : 14 + Math.random() * 12;
+    const turn = reference && Math.random() < 0.2 ? any([-90, 90]) : Math.random() * 8 - 4;
+    const word = document.createElement('span');
+    const text = label(a), tagged = reference && !text.toLowerCase().includes(type.toLowerCase());
+    word.textContent = (tagged ? `${type} ${text}` : text).slice(0, 36);
+    word.style.cssText = `position:absolute;left:${left + (Math.random() * 40 - 10)}px;top:${top - size * 1.1 - Math.random() * 8}px;white-space:nowrap;font:600 ${size}px ${face};` +
+      `color:${block ? '#111' : ink};background:${block ? ink : 'transparent'};padding:${block ? '1px 10px' : '0'};` +
+      `text-shadow:${block ? 'none' : `0 0 14px ${ink}aa`};transform-origin:left center;transform:rotate(${turn}deg);opacity:0`;
+    const layerNow = overlay();
+    layerNow.appendChild(word);
+    while (layerNow.childElementCount > 18) layerNow.firstElementChild.remove();
+    const spin = `rotate(${turn}deg)`;
+    word.animate([
+      { opacity: 0, transform: `${spin} scale(.25)` },
+      { opacity: 1, transform: `${spin} scale(1.18)`, offset: 0.2 },
+      { opacity: 1, transform: `${spin} scale(1)`, offset: 0.35 },
+      { opacity: 0.9, transform: `${spin} translateY(-6px) scale(1)`, offset: 0.8 },
+      { opacity: 0, transform: `${spin} translateY(-10px) scale(.96)` }
+    ], { duration: reference ? 5200 : 3200, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }).onfinish = () => word.remove();
+    if (!reference) return;
+    // A wide translucent beam from the spider to the identifier.
+    const fromX = x + (window.scrollX || 0), fromY = y + (window.scrollY || 0), toX = left + r.width / 2, toY = top + r.height / 2;
+    const length = Math.hypot(toX - fromX, toY - fromY), angle = Math.atan2(toY - fromY, toX - fromX) * 180 / Math.PI;
+    const beam = document.createElement('div');
+    beam.style.cssText = `position:absolute;left:${fromX}px;top:${fromY - 11}px;width:${Math.max(40, length)}px;height:22px;` +
+      `background:linear-gradient(90deg, ${ink}00, ${ink}cc 30%, ${ink}aa);transform-origin:left center;transform:rotate(${angle}deg);mix-blend-mode:screen;opacity:0`;
+    layerNow.appendChild(beam);
+    beam.animate([{ opacity: 0, transform: `rotate(${angle}deg) scaleX(.1)` }, { opacity: 0.85, transform: `rotate(${angle}deg) scaleX(1)`, offset: 0.25 }, { opacity: 0, transform: `rotate(${angle}deg) scaleX(1)` }],
+      { duration: 1100, easing: 'ease-out', fill: 'forwards' }).onfinish = () => beam.remove();
   }
   function pick() {
     if (index >= links.length) { running = false; post('complete', {}); return; }
     target = links[index++];
     target.scrollIntoView({ behavior: reduced() ? 'instant' : 'smooth', block: 'center' });
-    target.style.outline = `1px solid ${palette[index % palette.length]}`;
-    target.style.outlineOffset = '3px';
-    target.style.borderRadius = '3px';
-    target.style.backgroundColor = palette[index % palette.length] + '28';
+    const type = classify(target);
     post('progress', { scanned: index });
     if (!scanned.has(target.href)) {
       scanned.add(target.href);
-      post('link', { url: target.href, title: label(target).slice(0, 200), type: classify(target) });
+      post('link', { url: target.href, title: label(target).slice(0, 200), type });
     }
+    try { highlight(target, type, palette[index % palette.length]); } catch {}
   }
   function frame(t) {
     frameID = null;

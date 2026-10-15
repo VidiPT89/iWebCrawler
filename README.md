@@ -25,7 +25,8 @@
 - ✅ Portuguese (Portugal) and English, switchable instantly from Settings and remembered between launches
 - ✅ System, Light and Dark appearance modes, also saved in Settings
 - ✅ Explore, pause, resume and restart, with four animation speeds and a real progress indicator
-- ✅ Deduplicated link collection with DOI, PMID, ISBN and Bibcode pattern recognition, including image and icon links named by their accessible label
+- ✅ Deduplicated link collection that recognises DOI, PMID, PMC, ISBN, ISSN, Bibcode, arXiv, S2CID, OCLC and Handle identifiers, including image and icon links named by their accessible label
+- ✅ Identifiers come alive as the spider reaches them: they jump off the page in bright colours and mixed typefaces, some in solid blocks or turned on their side, with a beam from the spider (off with Reduce Motion)
 - ✅ Search, reference filters, link details and individual link sharing
 - ✅ Export the current collection as dated JSON and CSV files using the system share menu
 - ✅ Optional same-site link following that respects `robots.txt`, with a configurable limit of 1–20 pages and a two-second delay between pages
