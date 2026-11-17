@@ -124,13 +124,21 @@ async function savePrefs(change) {
 }
 
 async function init() {
-  const stored = await api.storage.local.get('prefs');
-  prefs = { ...prefs, ...(stored?.prefs ?? {}) };
+  // Paint the labels first, so the popup is never empty while the browser answers the calls below.
+  applyPrefs();
+  try {
+    const stored = await api.storage.local.get('prefs');
+    prefs = { ...prefs, ...(stored?.prefs ?? {}) };
+  } catch {}
+  applyPrefs();
   // `?tab=<id>` opens the popup as a page for a given tab, which helps debugging and automated tests.
   const forced = Number(new URLSearchParams(location.search).get('tab'));
-  tab = forced ? await api.tabs.get(forced) : (await api.tabs.query({ active: true, currentWindow: true }))[0];
+  try {
+    tab = forced ? await api.tabs.get(forced) : (await api.tabs.query({ active: true, currentWindow: true }))[0];
+  } catch { tab = null; }
   try { $('host').textContent = new URL(tab.url).host || tab.title || '—'; } catch { $('host').textContent = tab?.title ?? '—'; }
-  try { state = await connect(); } catch { blocked = true; }
+  if (!tab?.id) blocked = true;
+  else try { state = await connect(); } catch { blocked = true; }
   applyPrefs();
   if (state) state = await inject(command, ['configure', options()]) ?? state;
   render();
@@ -154,7 +162,7 @@ async function init() {
     $('copy').textContent = t('copied'); setTimeout(() => { $('copy').textContent = t('copy'); }, 1500);
   });
   api.runtime.onMessage.addListener((message, sender) => {
-    if (message?.type === 'iwc-update' && sender.tab?.id === tab.id) { state = message.state; render(); }
+    if (message?.type === 'iwc-update' && sender.tab?.id === tab?.id) { state = message.state; render(); }
   });
   // Some browsers deliver page messages to the popup unreliably, so it also asks while the spider walks.
   setInterval(async () => {
